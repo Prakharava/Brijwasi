@@ -13,6 +13,7 @@ const Login = () => {
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [userType, setUserType] = useState("user")
+  const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -148,19 +149,28 @@ const Login = () => {
             )}
 
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className={`form-control ${errors.password ? "error" : ""}`}
-                placeholder="Create a password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-              {errors.password && <p className="error-message">{errors.password}</p>}
-            </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <div className="password-wrapper">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    className={`form-control ${errors.password ? "error" : ""}`}
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                  <span
+                    className="toggle-password"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? "Hide" : "View"}
+                  </span>
+                </div>
+                {errors.password && <p className="error-message">{errors.password}</p>}
+              </div>
+
 
             {errors.form && <p className="error-message" style={{ textAlign: "center" }}>{errors.form}</p>}
 
@@ -267,6 +277,22 @@ const Login = () => {
         .form-control.error {
           border-color: #e53935;
         }
+
+        .password-wrapper {
+          position: relative;
+        }
+
+        .toggle-password {
+          position: absolute;
+          right: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 0.9rem;
+          color: #555;
+          cursor: pointer;
+          user-select: none;
+        }
+
 
         .error-message {
           font-size: 0.85rem;

@@ -28,10 +28,15 @@ const SearchResults = () => {
   const fetchHotels = async (city) => {
     try {
       setLoading(true)
-      const response = await fetch(`/api/hotels/search?city=${encodeURIComponent(city)}`)
+      const response = await fetch(`http://localhost:3000/hotels/search?city=${encodeURIComponent(city)}`)
       if (!response.ok) throw new Error("Failed to fetch hotels")
-      const data = await response.json()
-      setHotels(data)
+      const result = await response.json()
+      
+      if (result.status) {
+        setHotels(result.data || []) // <-- fix here
+      } else {
+        setHotels([])
+      }
     } catch (error) {
       console.error("Error fetching hotels:", error)
       setHotels([])
@@ -39,6 +44,7 @@ const SearchResults = () => {
       setLoading(false)
     }
   }
+  
 
   const filteredHotels = hotels.filter(
     hotel => !hotel.price || (hotel.price >= priceRange[0] && hotel.price <= priceRange[1])

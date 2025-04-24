@@ -10,11 +10,14 @@ const Register = () => {
     email: "",
     phone: "",
     password: "",
+    confirmPassword: "",
   })
 
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [userType, setUserType] = useState("user")
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -43,6 +46,9 @@ const Register = () => {
 
     if (!formData.password) newErrors.password = "Password is required"
     else if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters"
+
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Passwords do not match"
+    else if (formData.confirmPassword.length < 6) newErrors.confirmPassword = "Password must be at least 6 characters"
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -154,17 +160,50 @@ const Register = () => {
 
               <div className="form-group">
                 <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  className={`form-control ${errors.password ? "error" : ""}`}
-                  placeholder="Create a password"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
+                <div className="password-wrapper">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    className={`form-control ${errors.password ? "error" : ""}`}
+                    placeholder="Create a password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                  <span
+                    className="toggle-password"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? "Hide" : "View"}
+                  </span>
+                </div>
                 {errors.password && <p className="error-message">{errors.password}</p>}
               </div>
+
+
+              <div className="form-group">
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <div className="password-wrapper">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    className={`form-control ${errors.confirmPassword ? "error" : ""}`}
+                    placeholder="Re-enter your password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                  />
+                  <span
+                    className="toggle-password"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? "Hide" : "View"}
+                  </span>
+                </div>
+                {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+              </div>
+
+
 
               <button type="submit" className="btn btn-full" disabled={isLoading}>
                 {isLoading ? "Creating Account..." : `Register as ${userType === "admin" ? "Admin" : "User"}`}
@@ -272,7 +311,21 @@ const Register = () => {
           font-size: 0.85rem;
           margin-top: 0.3rem;
         }
-
+        .password-wrapper {
+          position: relative;
+        }
+        .toggle-password {
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 0.85rem;
+          color: #2f80ed;
+          cursor: pointer;
+        }
+        .toggle-password:hover {
+          text-decoration: underline;
+        }
         .btn {
           display: inline-block;
           width: 100%;

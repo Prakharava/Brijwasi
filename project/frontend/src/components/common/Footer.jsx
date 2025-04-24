@@ -30,8 +30,6 @@ const Footer = () => {
       content: (
         <ul>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/rooms">Rooms</Link></li>
-          <li><Link to="/restaurant">Restaurant</Link></li>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/register">Register</Link></li>
         </ul>
@@ -41,12 +39,12 @@ const Footer = () => {
       title: "Our Branches",
       content: (
         <ul>
-          <li><p>Delhi</p></li>
+          <li><p>Agra</p></li>
           <li><p>Mathura</p></li>
-          <li><p>Ayodhya</p></li>
+          <li><p>Vrindavan</p></li>
           <li><p>Varanasi</p></li>
           <li><p>Haridwar</p></li>
-          <li><p>Puri</p></li>
+          <li><p>Jaipur</p></li>
         </ul>
       ),
     },
